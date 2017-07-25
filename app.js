@@ -3,7 +3,7 @@ const express = require('express');
 const knex = require('knex');
 const path = require('path');
 const bodyParser = require('body-parser');
-const movieList = require('./api/movieList');
+const movieList = require('./api/movieList.js');
 
 const app = express();
 
