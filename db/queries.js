@@ -15,5 +15,11 @@ module.exports = {
   },
   delete(id) {
     return knex('movies').where('id', id).del();
+  },
+  create(user) {
+    return knex('users').insert(user, '*');
+  },
+  create(userSignIn) {
+    return knex('users').insert(user, '*').first();
   }
 }
