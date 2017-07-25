@@ -3,5 +3,5 @@ const config = require('../knexfile.js');
 const environmentConfig = config[environment];
 const knex = require('knex');
 const connection = knex(environmentConfig);
-console.log(environment);
+console.log('Nodemon is listening!');
 module.exports = connection;
