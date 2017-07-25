@@ -1,6 +1,6 @@
 const cors = require('cors');
 const express = require('express');
-const knex = require('./knex');
+const knex = require('knex');
 const path = require('path');
 const bodyParser = require('body-parser');
 const movieList = require('./api/movieList');
