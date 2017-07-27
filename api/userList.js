@@ -17,7 +17,6 @@ function validUser(user) {
 };
 
 router.get('/', (req, res) => {
-  var hash = bcrypt.hashSync(req.params.password, 8);
   queries.getAll().then(users => {
     res.json(users);
   });
