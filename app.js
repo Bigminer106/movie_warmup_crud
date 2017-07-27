@@ -4,11 +4,14 @@ const knex = require('./db/knex.js');
 const path = require('path');
 const bodyParser = require('body-parser');
 const movieList = require('./api/movieList.js');
+const userList = require('./api/userList.js')
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use('/api/v1/movieList', movieList);
+app.use('/auth/signup', userList);
+app.use('/auth/login', userList);
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const queries = require('../db/queries');
+const bcrypt = require('bcrypt');
 
 function isValidId(req, res, next) {
   if (!isNaN(req.params.id)) {
@@ -58,33 +59,6 @@ router.delete('/:id', isValidId, (req, res) => {
       deleted: true
     });
   });
-});
-
-router.post('/auth/signup', (req, res, next) => {
-  var hash = bcrypt.hashSync(req.params.password, 8);
-  users().insert({
-    email: req.params.email,
-    password: hash
-  }, 'id').then(function(result) {
-    res.redirect('/auth/login')
-  })
-});
-
-router.post('/auth/login', (req, res, next) => {
-  users().where({
-    email: req.params.email,
-  }).first().then(function(user) {
-    if(user) {
-      if (bcrypt.compareSync(req.body.password, user.password)) {
-        req.session.user = user.username;
-        res.redirect('/');
-      } else {
-        res.redirect('/auth/login');
-      }
-    } else {
-      res.redirect('/auth/login');
-    }
-  })
 });
 
 module.exports = router;
