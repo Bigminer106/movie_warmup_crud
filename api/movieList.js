@@ -21,19 +21,19 @@ function validMovie(movie) {
   return hasTitle && hasDescription && hasRating && hasYear && hasImage && hasDate && hasType;
 };
 
-router.get('/', (req, res) => {
+router.get('/', validMovie, (req, res) => {
   queries.getAll().then(movies => {
     res.json(movies);
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validMovie, (req, res) => {
   queries.getOne(req.params.id).then(movie => {
     res.json(movie);
   });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', validMovie, (req, res, next) => {
   if (validMovie(req.body)) {
     queries.create(req.body).then(movies => {
       res.json(movies[0]);
@@ -43,7 +43,7 @@ router.post('/', (req, res, next) => {
   };
 });
 
-router.put('/:id', isValidId, (req, res, next) => {
+router.put('/:id', isValidId, validMovie, (req, res, next) => {
   if (validMovie(req.body)) {
     queries.update(req.params.id, req.body).then(movies => {
       res.json(movies[0]);
@@ -53,7 +53,7 @@ router.put('/:id', isValidId, (req, res, next) => {
   };
 });
 
-router.delete('/:id', isValidId, (req, res) => {
+router.delete('/:id', isValidId, validMovie, (req, res) => {
   queries.delete(req.params.id).then(() => {
     res.json({
       deleted: true

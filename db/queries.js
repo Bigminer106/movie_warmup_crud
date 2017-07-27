@@ -28,8 +28,8 @@ module.exports = {
   create(user) {
     return knex('users').insert(user, '*');
   },
-  create(userSignIn, id) {
-    return knex('users').where('id', id).insert(userSignIn, '*').first();
+  create(id) {
+    return knex('users').where('id', id).first();
   },
   delete(id) {
     return knex('users').where('id', id).del();
