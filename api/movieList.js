@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const queries = require('../db/queries');
-const bcrypt = require('bcrypt');
 
 function isValidId(req, res, next) {
   if (!isNaN(req.params.id)) {
@@ -21,19 +20,19 @@ function validMovie(movie) {
   return hasTitle && hasDescription && hasRating && hasYear && hasImage && hasDate && hasType;
 };
 
-router.get('/', validMovie, (req, res) => {
-  queries.getAll().then(movies => {
+router.get('/', (req, res) => {
+  queries.getAll('movies').then(movies => {
     res.json(movies);
   });
 });
 
-router.get('/:id', validMovie, (req, res) => {
+router.get('/:id', (req, res) => {
   queries.getOne(req.params.id).then(movie => {
     res.json(movie);
   });
 });
 
-router.post('/', validMovie, (req, res, next) => {
+router.post('/', (req, res, next) => {
   if (validMovie(req.body)) {
     queries.create(req.body).then(movies => {
       res.json(movies[0]);
@@ -43,7 +42,7 @@ router.post('/', validMovie, (req, res, next) => {
   };
 });
 
-router.put('/:id', isValidId, validMovie, (req, res, next) => {
+router.put('/:id', isValidId, (req, res, next) => {
   if (validMovie(req.body)) {
     queries.update(req.params.id, req.body).then(movies => {
       res.json(movies[0]);
@@ -53,7 +52,7 @@ router.put('/:id', isValidId, validMovie, (req, res, next) => {
   };
 });
 
-router.delete('/:id', isValidId, validMovie, (req, res) => {
+router.delete('/:id', isValidId, (req, res) => {
   queries.delete(req.params.id).then(() => {
     res.json({
       deleted: true

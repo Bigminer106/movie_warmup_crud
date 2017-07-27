@@ -10,8 +10,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use('/api/v1/movieList', movieList);
-app.use('/auth/signup', userList);
-app.use('/auth/login', userList);
+app.use('/auth', userList);
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
