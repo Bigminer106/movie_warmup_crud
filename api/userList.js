@@ -23,6 +23,22 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/:id', (req, res) => {
+  queries.getOne(req.params.id).then(user => {
+    res.json(user);
+  });
+});
+
+router.put('/:id', isValidId, (req, res, next) => {
+  if (validUser(req.body)) {
+    queries.update(req.params.id, req.body).then(users => {
+      res.json(users[0]);
+    })
+  } else {
+    next(new Error('Invalid User'));
+  };
+});
+
 router.post('/auth/signup', (req, res, next) => {
   var hash = bcrypt.hashSync(req.params.password, 8);
   users().insert({
@@ -48,6 +64,14 @@ router.post('/auth/login', (req, res, next) => {
       res.redirect('/auth/login');
     }
   })
+});
+
+router.delete('/:id', isValidId, (req, res) => {
+  queries.delete(req.params.id).then(() => {
+    res.json({
+      deleted: true
+    });
+  });
 });
 
 module.exports = router;
