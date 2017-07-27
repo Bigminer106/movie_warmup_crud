@@ -1,8 +1,8 @@
 const knex = require('./knex.js');
 
 module.exports = {
-  getAll() {
-    return knex('movies');
+  getAll(movies) {
+    return knex('movies', movies);
   },
   getOne(id) {
     return knex('movies').where('id', id).first();
@@ -16,10 +16,22 @@ module.exports = {
   delete(id) {
     return knex('movies').where('id', id).del();
   },
+  getAll(users) {
+    return knex('users', users);
+  },
+  getOne(id) {
+    return knex('users').where('id', id).first();
+  },
+  update(id, user) {
+    return knex('users').where('id', id).update(user);
+  },
   create(user) {
     return knex('users').insert(user, '*');
   },
-  create(userSignIn) {
-    return knex('users').insert(user, '*').first();
+  create(userSignIn, id) {
+    return knex('users').where('id', id).insert(userSignIn, '*').first();
+  },
+  delete(id) {
+    return knex('users').where('id', id).del();
   }
 }

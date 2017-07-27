@@ -16,6 +16,13 @@ function validUser(user) {
   const hasEmail = typeof user.email == 'string' && user.email.trim() != '';
 };
 
+router.get('/', (req, res) => {
+  var hash = bcrypt.hashSync(req.params.password, 8);
+  queries.getAll().then(users => {
+    res.json(users);
+  });
+});
+
 router.post('/auth/signup', (req, res, next) => {
   var hash = bcrypt.hashSync(req.params.password, 8);
   users().insert({
@@ -42,3 +49,5 @@ router.post('/auth/login', (req, res, next) => {
     }
   })
 });
+
+module.exports = router;
